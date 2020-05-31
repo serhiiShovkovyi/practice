@@ -1,0 +1,33 @@
+{% extends "application/index.html" %}
+
+{% block content %}
+<section class="row justify-content-center p-4" id="MyStatForm">
+    <form action="." method="post" class="form-horizontal shadow-lg form-main">
+        {% csrf_token %}
+        <div class="d-flex flex-column p-4 align-items-center">
+            <div class="mystats">
+                <p class="table_text">My stats:</p>
+                <p class="table_text win">Wins: {{ profile.wins }} </p>
+                <p class="table_text lose">Loses: {{ profile.losings }}</p>
+            </div>
+            <table id="games">
+                {% for games in games_for_player%}
+                    {#% if request.user == games.firstPlayer or request.user == games.secondPlayer %#}
+                        <tr class="mygames">
+                            <td><p class="table_text">{{ games.game_id }}</p></td>
+                            <td><p class="table_text">{{ games.firstPlayer.username }}</p></td>
+                            <td><p class="table_text vs_table">VS</p></td>
+                            <td><p class="table_text">{{ games.secondPlayer.username }}</p></td>
+                            {% if request.user == games.winner %}
+                                <td><p class="table_text win">Winner</p></td>
+                            {% else %}
+                                <td><p class="table_text lose">Looser</p></td>
+                            {% endif %}
+                        </tr>
+                    {#% endif %#}
+                {% endfor %}
+            </table>
+        </div>
+    </form>
+</section>
+{% endblock %}

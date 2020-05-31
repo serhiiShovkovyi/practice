@@ -1,0 +1,50 @@
+{% extends "application/index.html" %}
+
+{% block content %}
+    {% load static %}
+
+    <div class="container" id="loginForm">
+            <section class="row justify-content-center p-4" id="loginForm">
+                <form action="." method="post" class="form-horizontal shadow-lg form-main">
+                    {% csrf_token %}
+                   <div class="d-flex flex-column p-4 align-items-center">
+                        <h2>{{ title }}</h2>
+                        <hr />
+                        <div class="form-group">
+                            <label for="id_username">User name</label>
+                                {{ form.username }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_password">Password</label>
+                                {{ form.password }}
+                        </div>
+                        <div class="form-group">
+                                <input type="hidden" name="next" value="/" />
+                                <input type="submit" value="Sign In" class="btn btn-default" id="loginBtn"/>
+                        </div>
+                        <hr/>
+                        <div class="form-group">
+                                <a href="{% url 'social:begin' 'google-oauth2' %}" ><img class="linkImg"  src="{% static 'application/img/Google.png' %}"/></a>
+                                <a href="{% url 'social:begin' 'facebook' %}"><img class="linkImg"  src="{% static 'application/img/Facebook.png' %}"/></a>
+                        </div>
+                   </div>
+                    {% if form.errors %}
+                <p class="validation-summary-errors">Please enter a correct user name and password.</p>
+                {% endif %}
+                </form>
+            </section>
+        <div class="col-md-4">
+            <section id="socialLoginForm"></section>
+        </div>
+    </div>
+    
+        <hr/>
+            <footer>
+                <p>&copy; {{ year }} - Rock-Paper-Scissors-Lizard-Spoke. All rights reserved</p>
+            </footer>
+{% endblock %}
+
+
+{% block scripts %}
+<script src="{% static 'application/scripts/jquery.validate.min.js' %}"></script>
+{% endblock %}

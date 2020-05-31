@@ -1,0 +1,42 @@
+{% extends "application/index.html" %}
+
+{% block content %}
+<div class="container" id="regForm">
+    <section class="row justify-content-center p-4" id="regForm">
+        <form action="." method="post" class="form-horizontal shadow-lg form-main">
+            <div class="d-flex flex-column p-4 align-items-center">
+                <h4>CREATE NEW ACCOUNT</h4>
+                <hr />
+                <form action="#" method="POST">
+                        {% csrf_token %}
+                        <fieldset>
+                            {% for field in form %}
+                                {% if field.errors %}
+                                    <div class="form-group control-group error">
+                                        <label class="control-label">{{ field.label }}</label>
+                                        <div class="form-control ">{{ field }}
+                                <span class="help-inline">
+                                    {% for error in  field.errors %}{{ error }}{% endfor %}
+                                </span>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="control-group">
+                                        <label class="control-label">{{ field.label }}</label>
+                                        <div >{{ field }}
+
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </fieldset>
+                        <br>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+        </form>
+    </section>
+</div>
+{% endblock %}
+

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'application/content/bootstrap.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'application/content/bootstrap.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'application/content/site.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'application/content/style.css' %}"/>
+    <script src="{% static 'rps/scripts/modernizr-2.6.2.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="{% static 'application/scripts/bootstrap.min.js' %}"></script>
+    <title>{{ title }} Rock-Paper-Scissors-Lizard-Spock </title>
+    
+</head>
+
+<body>
+    <div id="header" class="navbar navbar-inverse navbar-expand-md navbar-sticky-top navbar-light bg-light">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="/" class="navbar-brand"> <img id="logoImg" style="height: 40px; margin: 5px" src="{% static 'application/img/logo.png' %}"/></a>
+            </div>
+            <div class="navbar-collapse justify-content-between collapse">
+                <ul class="nav navbar-nav h-100">
+                    <li class="mx-2"><a class="cool-link" href="{% url 'home' %}">Choose Game</a></li>
+                    <li class="mx-2"><a class="cool-link" href="{% url 'mygames' %}">My Games</a></li>
+                    <li class="mx-2"><a class="cool-link" href="{% url 'statistics' %}">Statistics</a></li>
+                </ul>
+                {% include 'application/greeting.html' %}
+            </div>
+            <button id="but" type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+                <div class="icon-bar my-1"></div>
+                <div class="icon-bar my-1"></div>
+                <div class="icon-bar my-1"></div>
+            </button>
+        </div>
+    </div>
+
+
+    <div class="container body-content"></div>
+{% block content %}{% endblock %}
+
+    </div>
+
+{% block scripts %}
+<script src="{% static 'application/scripts/jquery-1.10.2.js'%}"></script>
+<script src="{% static 'application/scripts/bootstrap.js'%}"></script>
+<script src="{% static 'application/scripts/respond.js'%}"></script>
+{% endblock %}
+
+</body>
+</html>

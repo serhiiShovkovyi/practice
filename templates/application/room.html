@@ -1,0 +1,132 @@
+{% extends "application/index.html" %}
+
+{% block content %}
+    {% load static %}
+    <div class="game_field">
+    <div class="players">
+        <p class = "player" id="firstPlayer"></p>
+            <p id="vs">VS</p>
+        <p class="player" id="secondPlayer"></p>
+    </div>
+
+    <div class="log_block" id="winblock">
+        <p id="currentState">Waiting for opponent ...</p>
+    </div>
+        <div class="buttons">
+            <button class="choiceBut" id="game-rock"><img class ="ButtonImg" src="{% static 'application/img/hand-rock.png' %}" /></button>
+            <button class="choiceBut" id="game-paper"><img class ="ButtonImg" src="{% static 'application/img/hand-paper.png' %}" /></button>
+            <button class="choiceBut" id="game-scissors"><img class ="ButtonImg" src="{% static 'application/img/hand-peace.png' %}" /></button>
+            <button class="choiceBut" id="game-lizard"><img class ="ButtonImg" src="{% static 'application/img/hand-lizard.png' %}" /></button>
+            <button class="choiceBut" id="game-spoke"><img class ="ButtonImg" src="{% static 'application/img/hand-spoke.png' %}" /></button>
+        </div>
+    </div>
+
+<script>
+       $(".choiceBut").hide();
+    var roomName = {{ room_name_json }};
+    var isCompleted = false;
+    var chatSocket = new WebSocket(
+        'ws://' + window.location.host +
+        '/ws/game/' + roomName + '/');
+    var username = "{{request.user.username}}";
+    chatSocket.onmessage = function(e) {
+        var data = JSON.parse(e.data);
+
+        console.log(data.winner);
+
+       if (data.message=="2players")
+       {
+            $(".choiceBut").show();
+            document.querySelector('#firstPlayer').textContent = data.firstPlayer;
+            document.querySelector('#secondPlayer').textContent = data.secondPlayer;
+            document.querySelector('#currentState').textContent = "Game was started! Waiting for opponent choice..";
+       }
+
+       if (data.message=="waiting" & isCompleted !=true)
+       {
+
+            document.querySelector('#firstPlayer').textContent = data.firstPlayer;
+            document.querySelector('#secondPlayer').textContent = data.secondPlayer;
+            document.querySelector('#currentState').textContent = "Waiting for opponent ...";
+       }
+
+        if (data.message=="closed") {
+
+            $(".choiceBut").hide();
+             document.querySelector('#currentState').textContent = "Sorry... This  game is completed.  Redirecting to lobby";
+            setTimeout(function(){
+              window.location.href = 'http://127.0.0.1:8000/';
+                }, 3 * 1000);
+        }
+        else if (data.result != "noone") {
+             if (data.message == "completed") {
+                 isCompleted =true
+                if (username == data.winner) {
+                    $("#currentState").css({'color':'#006400','font-size':'30px','font-weight':'bold'});
+                    document.querySelector('#currentState').textContent = "You WIN!";
+                } else {
+                    document.querySelector('#currentState').textContent = "You LOSE!";
+                    $("#currentState").css({'color':'#8B0000','font-size':'30px','font-weight':'bold'});
+                }
+             }
+        } else {
+            document.querySelector('#currentState').textContent = "You opponent is a genius like you...Try again!\n Waiting for opponent choice...";
+             $(".choiceBut").show();
+
+        }
+    };
+
+    chatSocket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+        //document.location.replace("http://127.0.0.1:8000/lobby");
+    };
+
+    document.querySelector('#game-rock').onclick = function(e) {
+        var message = "stone"
+        chatSocket.send(JSON.stringify({
+            'message': message,
+        }));
+         $(".choiceBut").hide();
+        $("#game-rock").show();
+
+    };
+
+    document.querySelector('#game-scissors').onclick = function(e) {
+
+        var message = "scissors"
+        chatSocket.send(JSON.stringify({
+            'message': message,
+        }));
+        $(".choiceBut").hide();
+        $("#game-scissors").show();
+    };
+
+    document.querySelector('#game-paper').onclick = function(e) {
+        var message = "paper"
+        chatSocket.send(JSON.stringify({
+            'message': message,
+        }));
+         $(".choiceBut").hide();
+         $("#game-paper").show();
+    };
+    document.querySelector('#game-lizard').onclick = function(e) {
+
+        var message = "lizard"
+        chatSocket.send(JSON.stringify({
+            'message': message,
+
+        }));
+         $(".choiceBut").hide();
+         $("#game-lizard").show();
+    };
+    document.querySelector('#game-spoke').onclick = function(e) {
+
+        var message = "spoke"
+        chatSocket.send(JSON.stringify({
+            'message': message,
+        }));
+         $(".choiceBut").hide();
+         $("#game-spoke").show();
+    };
+</script>
+{% endblock %}
