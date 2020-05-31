@@ -8,10 +8,9 @@ class Game(models.Model):
     game_id = models.TextField(max_length=50, unique=True, blank=True)
     BET = (
         ('stone', 'stone'),
-        ('scissors', 'scissors'),
         ('paper', 'paper'),
         ('lizard', 'lizard'),
-        ('spoke', 'spoke'),
+       
     )
     #creator
     firstPlayer = models.ForeignKey(
