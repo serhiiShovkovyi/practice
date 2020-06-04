@@ -9,7 +9,7 @@ class Game(models.Model):
     BET = (
         ('stone', 'stone'),
         ('paper', 'paper'),
-        ('lizard', 'lizard'),
+        ('scissors', 'scissors'),
        
     )
     #creator
@@ -90,7 +90,7 @@ class Game(models.Model):
             self.save(update_fields=["firstPlayer_choice", "secondPlayer_choice"])
             return "noone"
         elif self.firstPlayer_choice == 'stone':
-            if self.secondPlayer_choice == 'lizard':
+            if self.secondPlayer_choice == 'scissors':
                 self.set_completed(self.firstPlayer)
             else:
                 self.set_completed(self.secondPlayer)
@@ -99,7 +99,7 @@ class Game(models.Model):
                 self.set_completed(self.firstPlayer)
             else:
                 self.set_completed(self.secondPlayer)
-        elif self.firstPlayer_choice == "lizard":
+        elif self.firstPlayer_choice == "scissors":
             if self.secondPlayer_choice == "paper":
                 self.set_completed(self.firstPlayer)
             else:

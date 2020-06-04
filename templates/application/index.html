@@ -12,7 +12,7 @@
     <script src="{% static 'rps/scripts/modernizr-2.6.2.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="{% static 'application/scripts/bootstrap.min.js' %}"></script>
-    <title>{{ title }} Rock-Paper-Lizard </title>
+    <title>{{ title }} Rock-Paper-Scissors </title>
     
 </head>
 
@@ -45,9 +45,12 @@
     </div>
 
 {% block scripts %}
-<script src="{% static 'application/scripts/jquery-1.10.2.js'%}"></script>
-<script src="{% static 'application/scripts/bootstrap.js'%}"></script>
-<script src="{% static 'application/scripts/respond.js'%}"></script>
+<script
+  src="https://code.jquery.com/jquery-3.5.1.slim.js"
+  integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM="
+  crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
 {% endblock %}
 
 </body>
